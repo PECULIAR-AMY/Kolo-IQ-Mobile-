@@ -4,7 +4,7 @@ import ImageLogo from '../assets/images/Simple Minimalist Creative Studio Logo.p
 const HomeScreen: React.FC= () => {
   return (
     <View style={styles.container}>
-      <Image source={ImageLogo} />
+      <Image source={require('../assets/images/Simple Minimalist Creative Studio Logo.png')} />
       <Text>Budget Smarter.</Text>
     </View>
   );
