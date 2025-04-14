@@ -21,6 +21,7 @@ const RootLayout: React.FC = () => {
       }}>
 
         <Stack.Screen name='index' options={{title:'Home'}}/>
+        <Stack.Screen name='signup' options={{headerTitle:'Signup'}}/>
 
       </Stack>
   );
