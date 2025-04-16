@@ -20,17 +20,22 @@ const HomeScreen: React.FC = () => {
       
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => router.push("/signup/index")} // ✅ make sure app/login.tsx exists
+        onPress={() => router.push("/signup")} // ✅ make sure app/login.tsx exists
       >
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
 
       <TouchableOpacity 
         style={styles.buttonOutline} 
-        onPress={() => router.push("/signup/index")}
+        onPress={() => router.push("/signup")}
       >
         <Text style={styles.buttonOutlineText}>Skip</Text>
       </TouchableOpacity>
+
+
+      <View> 
+        
+      </View>
     </View>
   );
 };

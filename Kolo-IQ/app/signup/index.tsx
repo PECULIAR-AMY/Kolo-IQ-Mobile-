@@ -69,7 +69,7 @@ const SignupScreen: React.FC = () => {
           {/* Button */}
 
           <TouchableOpacity style={styles.Button}
-          onPress={()=>router.push ('/login/index')}
+          onPress={()=>router.push ('/login')}
           >
            <Text style={styles.buttonText}>Create Account</Text>
           </TouchableOpacity>
@@ -77,7 +77,7 @@ const SignupScreen: React.FC = () => {
 
          <View style={styles.loginContainer}>
           <Text style= {styles.login}>Already have an Account?</Text>
-          <TouchableOpacity onPress={()=>router.push('/login/index')}>
+          <TouchableOpacity onPress={()=>router.push('/login')}>
             <Text style={styles.log}>LogIn</Text>
           </TouchableOpacity>
 
