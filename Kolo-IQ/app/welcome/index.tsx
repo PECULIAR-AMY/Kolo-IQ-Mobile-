@@ -1,33 +1,37 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, FlatList, Dimensions, ListRenderItemInfo } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { width } = Dimensions.get('window');
-const cardSize = (width - 50) / 3; // Adjusted for proper spacing calculation
+const cardSize = (width - 150) / 2;
 
 interface CardItem {
   id: number;
-  image: string;
+  icon: string;
   title: string;
+  subtitle: string;
 }
 
 const CardGrid: React.FC = () => {
-  // Sample data array
-  const cardData: CardItem[] = [
-    { id: 1, image: 'https://picsum.photos/200/300', title: 'Card 1' },
-    { id: 2, image: 'https://picsum.photos/201/300', title: 'Card 2' },
-    { id: 3, image: 'https://picsum.photos/202/300', title: 'Card 3' },
-    { id: 4, image: 'https://picsum.photos/203/300', title: 'Card 4' },
-    { id: 5, image: 'https://picsum.photos/204/300', title: 'Card 5' },
-    { id: 6, image: 'https://picsum.photos/205/300', title: 'Card 6' },
-  ];
+    const cardData: CardItem[] = [
+        { id: 1, icon: 'apps', title:'profile', subtitle:'Login, authenticate'},
+        { id: 2, icon: 'dots-vertical', title:'Appearance', subtitle:'widgets,themes' },
+        { id: 3, icon: 'cog-outline', title:'General', subtitle:'Currency, clear data and more'},
+        { id: 4, icon: 'account-cog', title:'Settings', subtitle:'Account settings,alerts and notifications'},
+        { id: 5, icon: 'database-export', title:'Data', subtitle:'Data management,export and import fortune'},
+        { id: 6, icon: 'lock-outline', title:'Privacy', subtitle:'Password management, privacy performance'},
+      ];
 
   const renderCard = ({ item }: ListRenderItemInfo<CardItem>) => (
     <View style={styles.card}>
-      <Image 
-        source={{ uri: item.image }} 
-        style={styles.image}
+      <Icon 
+        name={item.icon} 
+        size={40} 
+        color="#6200ee" 
+        style={styles.icon}
       />
-      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.text}>{item.title}</Text>
+      <Text style={styles.subtitle}>{item.subtitle}</Text>
     </View>
   );
 
@@ -37,9 +41,22 @@ const CardGrid: React.FC = () => {
         data={cardData}
         renderItem={renderCard}
         keyExtractor={item => item.id.toString()}
-        numColumns={3}
+        numColumns={2}
         contentContainerStyle={styles.grid}
       />
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.bottomBar}>
+        <Icon name="home" size={26} color="white" />
+        <Icon name="chart-bar" size={26} color="white" />
+        <Icon name="wallet" size={26} color="white" />
+        <Icon name="cog" size={26} color="white" />
+      </View>
+
+      {/* Centered Plus Button */}
+      <View style={styles.plusButton}>
+        <Icon name="plus" size={32} color="white" />
+      </View>
     </View>
   );
 };
@@ -47,16 +64,18 @@ const CardGrid: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'black',
     padding: 10,
   },
   grid: {
     justifyContent: 'center',
+    paddingBottom: 100, // Add space for bottom navigation
   },
   card: {
-    width: cardSize,
-    height: cardSize + 40,
-    backgroundColor: 'white',
+    marginHorizontal: 20,
+    width: cardSize + 20,
+    height: cardSize + 30,
+    backgroundColor: 'black',
     margin: 5,
     borderRadius: 8,
     elevation: 3,
@@ -64,19 +83,49 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    padding: 8,
+    padding: 4,
   },
-  image: {
-    width: '100%',
-    height: cardSize - 20,
-    borderRadius: 4,
-    resizeMode: 'cover',
+  icon: {
+    margin: 10,
+    marginBottom: 15,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 4,
   },
-  title: {
-    textAlign: 'center',
-    marginTop: 5,
+  text: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  subtitle: {
+    color: 'gray',
     fontSize: 12,
-    fontWeight: '500',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: '#1a1a1a',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  plusButton: {
+    position: 'absolute',
+    bottom: 30,
+    left: '50%',
+    backgroundColor: '#6200ee',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: [{ translateX: -30 }],
+    elevation: 5,
+    zIndex: 1,
   },
 });
 
