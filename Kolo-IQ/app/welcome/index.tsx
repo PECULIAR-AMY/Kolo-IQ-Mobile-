@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList, Dimensions, ListRenderItemInfo } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, Dimensions, ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useRouter }  from 'expo-router';
+
 
 const { width } = Dimensions.get('window');
 const cardSize = (width - 150) / 2;
@@ -35,6 +37,8 @@ const CardGrid: React.FC = () => {
     </View>
   );
 
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -54,9 +58,10 @@ const CardGrid: React.FC = () => {
       </View>
 
       {/* Centered Plus Button */}
-      <View style={styles.plusButton}>
+      <TouchableOpacity onPress={ () => router.push ('/transactions')}
+       style={styles.plusButton}>
         <Icon name="plus" size={32} color="white" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
