@@ -1,7 +1,15 @@
-import React, { useState, useMemo } from 'react';
-import { View, FlatList, Text, StyleSheet, Dimensions } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
+import React, { useState, useMemo, useCallback } from 'react';
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import { PieChart } from 'react-native-chart-kit';
 import SearchBar from '../searchbar';
+import { useRouter } from 'expo-router';
 
 interface Transaction {
   id: string;
@@ -14,15 +22,8 @@ interface Transaction {
 
 type TimeFrame = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
-// Proper type for chart data according to react-native-chart-kit
-interface ChartData {
-  labels: string[];
-  datasets: {
-    data: number[];
-  }[];
-}
-
 const TransactionScreen = () => {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [timeFrame, setTimeFrame] = useState<TimeFrame>('monthly');
 
@@ -33,97 +34,103 @@ const TransactionScreen = () => {
       amount: -120.75,
       date: '2023-08-15',
       type: 'debit',
-      category: 'grocery'
+      category: 'grocery',
     },
     {
-      id: '2',
-      description: 'Restaurant Visit',
-      amount: -45.50,
-      date: '2023-08-12',
-      type: 'debit',
-      category: 'food'
-    },
-    {
-      id: '3',
-      description: 'Taxi Ride',
-      amount: -25.30,
-      date: '2023-08-12',
-      type: 'debit',
-      category: 'taxi'
-    },
-    {
+        id: '2',
+        description: 'Taxi',
+        amount: -120.75,
+        date: '2023-08-15',
+        type: 'debit',
+        category: 'grocery',
+      },
+      {
+        id: '3',
+        description: 'Food',
+        amount: -120.75,
+        date: '2023-08-15',
+        type: 'debit',
+        category: 'grocery',
+      },
+
+      {
         id: '4',
         description: 'Health',
-        amount: -25.30,
-        date: '2023-08-12',
+        amount: -120.75,
+        date: '2023-08-15',
         type: 'debit',
-        category: 'taxi'
-    },
-    
-    {
+        category: 'grocery',
+      },
+      {
         id: '5',
-        description: 'Health',
-        amount: -25.30,
-        date: '2023-08-12',
+        description: 'Tax',
+        amount: -120.75,
+        date: '2023-08-15',
         type: 'debit',
-        category: 'taxi'
-    },
-
-    {
-        id: '6',
-        description: 'Food',
-        amount: -25.30,
-        date: '2023-08-12',
-        type: 'debit',
-        category: 'taxi'
-    },
-
-
+        category: 'grocery',
+      },
+    // Add more transactions as needed
   ]);
 
-  const filterTransactionsByTimeFrame = (date: string): boolean => {
-    const transactionDate = new Date(date);
-    const now = new Date();
-    const timeDiff = now.getTime() - transactionDate.getTime();
-    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const filterTransactionsByTimeFrame = useCallback(
+    (date: string): boolean => {
+      const transactionDate = new Date(date);
+      const now = new Date();
+      const diffDays = Math.ceil((now.getTime() - transactionDate.getTime()) / (1000 * 3600 * 24));
 
-    switch(timeFrame) {
-      case 'daily': return diffDays <= 1;
-      case 'weekly': return diffDays <= 7;
-      case 'monthly': return transactionDate.getMonth() === now.getMonth();
-      case 'yearly': return transactionDate.getFullYear() === now.getFullYear();
-      default: return true;
-    }
-  };
+      switch (timeFrame) {
+        case 'daily':
+          return diffDays <= 1;
+        case 'weekly':
+          return diffDays <= 7;
+        case 'monthly':
+          return (
+            transactionDate.getMonth() === now.getMonth() &&
+            transactionDate.getFullYear() === now.getFullYear()
+          );
+        case 'yearly':
+          return transactionDate.getFullYear() === now.getFullYear();
+        default:
+          return true;
+      }
+    },
+    [timeFrame]
+  );
 
-  const chartData: ChartData = useMemo(() => {
+  const chartData = useMemo(() => {
     const categories = ['shopping', 'food', 'grocery', 'health', 'taxi', 'travel'];
-    
-    const data = categories.map(category => 
-      transactions
-        .filter(t => 
-          t.category === category && 
-          t.type === 'debit' &&
-          filterTransactionsByTimeFrame(t.date)
-        )
-        .reduce((sum, t) => sum + Math.abs(t.amount), 0)
-    );
+    const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#66BB6A', '#BA68C8', '#FF7043'];
 
-    return {
-      labels: categories.map(c => c.charAt(0).toUpperCase() + c.slice(1)),
-      datasets: [{ data }]
-    };
-  }, [transactions, timeFrame]);
-
-  const filteredTransactions = useMemo(() => 
-    searchTerm 
-      ? transactions.filter(t =>
-          t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          t.date.includes(searchTerm) ||
-          t.amount.toString().includes(searchTerm)
+    return categories.map((category, index) => {
+      const total = transactions
+        .filter(
+          (t) =>
+            t.category === category &&
+            t.type === 'debit' &&
+            filterTransactionsByTimeFrame(t.date)
         )
-      : transactions,
-  [transactions, searchTerm]);
+        .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+      return {
+        name: category.charAt(0).toUpperCase() + category.slice(1),
+        amount: total,
+        color: colors[index % colors.length],
+        legendFontColor: '#7F7F7F',
+        legendFontSize: 14,
+      };
+    }).filter((entry) => entry.amount > 0);
+  }, [transactions, timeFrame, filterTransactionsByTimeFrame]);
+
+  const filteredTransactions = useMemo(() => {
+    return searchTerm
+      ? transactions.filter(
+          (t) =>
+            t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.date.includes(searchTerm) ||
+            t.amount.toString().includes(searchTerm)
+        )
+      : transactions;
+  }, [transactions, searchTerm]);
 
   const renderTransactionItem = ({ item }: { item: Transaction }) => (
     <View style={styles.transactionItem}>
@@ -148,41 +155,39 @@ const TransactionScreen = () => {
       />
 
       <View style={styles.chartContainer}>
-        <BarChart
+        <PieChart
           data={chartData}
           width={Dimensions.get('window').width - 32}
           height={220}
-          yAxisLabel="$"
-          yAxisSuffix=""
           chartConfig={{
-            backgroundColor: '#ffffff',
-            backgroundGradientFrom: '#ffffff',
-            backgroundGradientTo: '#ffffff',
-            decimalPlaces: 2,
+            backgroundColor: '#fff',
+            backgroundGradientFrom: '#fff',
+            backgroundGradientTo: '#fff',
             color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            style: { borderRadius: 16 },
-            barPercentage: 0.5,
-            propsForLabels: { fontSize: 12 },
-            propsForBackgroundLines: { strokeWidth: 0 },
           }}
-          verticalLabelRotation={0}
-          fromZero
-          showBarTops={false}
+          accessor="amount"
+          backgroundColor="transparent"
+          paddingLeft="15"
+          absolute
           style={styles.chart}
         />
 
         <View style={styles.timeFrameContainer}>
           {(['daily', 'weekly', 'monthly', 'yearly'] as TimeFrame[]).map((frame) => (
-            <Text
+            <TouchableOpacity
+            onPressIn ={() => router.push ('./budget')}
               key={frame}
+              onPress={() => setTimeFrame(frame)}
               style={[
                 styles.timeFrameButton,
-                timeFrame === frame && styles.selectedTimeFrame
+                timeFrame === frame && styles.selectedTimeFrame,
               ]}
-              onPress={() => setTimeFrame(frame)}>
-              {frame.charAt(0).toUpperCase() + frame.slice(1)}
-            </Text>
+            >
+              <Text style={timeFrame === frame ? styles.selectedText : styles.timeFrameText}>
+                {frame.charAt(0).toUpperCase() + frame.slice(1)}
+              </Text>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -225,13 +230,18 @@ const styles = StyleSheet.create({
   timeFrameButton: {
     padding: 8,
     borderRadius: 8,
-    color: '#666',
-    fontSize: 14,
   },
   selectedTimeFrame: {
     backgroundColor: '#4A90E2',
+  },
+  timeFrameText: {
+    color: '#666',
+    fontSize: 14,
+  },
+  selectedText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 14,
   },
   searchBarContainer: {
     margin: 16,

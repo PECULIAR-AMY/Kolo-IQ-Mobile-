@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-const BudgetLayout:React.FC =() => {
+const TransactionHistoryLayout:React.FC =() => {
     return <Stack 
     screenOptions={{
         headerShown: false 
@@ -8,4 +8,4 @@ const BudgetLayout:React.FC =() => {
 }
 
 
-export default BudgetLayout
+export default TransactionHistoryLayout
