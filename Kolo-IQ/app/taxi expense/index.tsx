@@ -1,17 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Dimensions,
+    ScrollView,
+} from 'react-native';
 import SearchBar from '../searchbar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useRouter} from 'expo-router'
+import { useRouter } from 'expo-router';
+import { BarChart } from 'react-native-chart-kit';
 
-
+const screenWidth = Dimensions.get('window').width;
 
 const TransactionHistory: React.FC = () => {
-    const router= useRouter();
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Convert pieData into format suitable for BarChart
+    const barData = {
+        labels: ['Jan-Feb', 'Mar-Apr', 'May-Jul'],
+        datasets: [
+            {
+                data: [50, 30, 20],
+            },
+        ],
+    };
+
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <SearchBar
                 onSearch={setSearchTerm}
                 placeholder="Super AI search"
@@ -20,13 +38,34 @@ const TransactionHistory: React.FC = () => {
                 iconColor="#4A90E2"
             />
 
-            <View style={styles.all}>
-                <Text>All</Text>
-                <Text>Spending</Text>
-                <Text>Income</Text>
+            {/* Bar Chart Section */}
+            <View style={styles.pieContainer}>
+                <Text style={styles.pieTitle}>Expenses (Jan - July)</Text>
+                <BarChart
+                    data={barData}
+                    width={screenWidth - 32}
+                    height={220}
+                    chartConfig={{
+                        backgroundColor: '#fff',
+                        backgroundGradientFrom: '#fff',
+                        backgroundGradientTo: '#fff',
+                        decimalPlaces: 0,
+                        color: (opacity = 1) => `rgba(74, 144, 226, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                        style: {
+                            borderRadius: 16,
+                        },
+                        propsForBackgroundLines: {
+                            strokeDasharray: '', // solid lines
+                        },
+                    }}
+                    style={{ borderRadius: 10 }}
+                    fromZero
+                    showValuesOnTopOfBars
+                />
             </View>
 
-            {/* Vertical Card List */}
+            {/* Cards (same as before) */}
             <View style={styles.card}>
                 {[
                     { icon: 'car', title: 'Taxi', desc: 'Uber ride', amount: '$12.99' },
@@ -48,7 +87,6 @@ const TransactionHistory: React.FC = () => {
                 ))}
             </View>
 
-            {/* Additional Card 1 - Shopping */}
             <View style={styles.singleCard}>
                 <Icon name="cart" size={24} color="#4A90E2" />
                 <View style={styles.textGroup}>
@@ -58,18 +96,17 @@ const TransactionHistory: React.FC = () => {
                 <Text style={styles.amountText}>$76.40</Text>
             </View>
 
-            {/* Additional Card 2 - Taxi */}
-            <TouchableOpacity onPress={() =>router.push('./balance')}>
-            <View style={styles.singleCard}>
-                <Icon name="car" size={24} color="#4A90E2" />
-                <View style={styles.textGroup}>
-                    <Text style={styles.cardTitle}>Taxi</Text>
-                    <Text style={styles.cardDescription}>Airport pickup</Text>
+            <TouchableOpacity onPress={() => router.push('./add payments')}>
+                <View style={styles.singleCard}>
+                    <Icon name="car" size={24} color="#4A90E2" />
+                    <View style={styles.textGroup}>
+                        <Text style={styles.cardTitle}>Taxi</Text>
+                        <Text style={styles.cardDescription}>Airport pickup</Text>
+                    </View>
+                    <Text style={styles.amountText}>$25.00</Text>
                 </View>
-                <Text style={styles.amountText}>$25.00</Text>
-            </View>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -86,6 +123,19 @@ const styles = StyleSheet.create({
     searchInput: {
         fontSize: 16,
         color: '#1C1C1E',
+    },
+    pieContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+        backgroundColor: '#F9F9F9',
+        padding: 10,
+        borderRadius: 10,
+    },
+    pieTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 10,
+        color: '#333',
     },
     all: {
         flexDirection: 'row',

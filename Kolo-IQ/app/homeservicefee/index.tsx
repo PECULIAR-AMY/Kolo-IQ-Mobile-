@@ -1,51 +1,26 @@
-import React, { useState } from 'react';
+
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import SearchBar from '../searchbar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useRouter} from 'expo-router'
 
 
 
-const TransactionHistory: React.FC = () => {
+const HomeServiceFee: React.FC = () => {
     const router= useRouter();
-    const [searchTerm, setSearchTerm] = useState('');
 
     return (
         <View style={styles.container}>
-            <SearchBar
-                onSearch={setSearchTerm}
-                placeholder="Super AI search"
-                containerStyle={styles.searchBarContainer}
-                inputStyle={styles.searchInput}
-                iconColor="#4A90E2"
-            />
-
-            <View style={styles.all}>
-                <Text>All</Text>
-                <Text>Spending</Text>
-                <Text>Income</Text>
+           <View style={styles.singleCard}>
+                <Icon name="cart" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>$5000</Text>
+                    <Text style={styles.cardDescription}>AshBank USD</Text>
+                </View>
+                <Icon name="pen" size={24} color="#4A90E2" />
             </View>
 
-            {/* Vertical Card List */}
-            <View style={styles.card}>
-                {[
-                    { icon: 'car', title: 'Taxi', desc: 'Uber ride', amount: '$12.99' },
-                    { icon: 'silverware-fork-knife', title: 'Food', desc: 'Lunch at cafe', amount: '$8.50' },
-                    { icon: 'bank-transfer', title: 'Transfer', desc: 'Bank to wallet', amount: '$100.00' },
-                    { icon: 'tag', title: 'Prices', desc: 'Grocery shopping', amount: '$54.20' },
-                ].map((item, index) => (
-                    <React.Fragment key={index}>
-                        <View style={styles.cardItem}>
-                            <Icon name={item.icon} size={24} color="#4A90E2" />
-                            <View style={styles.textGroup}>
-                                <Text style={styles.cardTitle}>{item.title}</Text>
-                                <Text style={styles.cardDescription}>{item.desc}</Text>
-                            </View>
-                            <Text style={styles.amountText}>{item.amount}</Text>
-                        </View>
-                        {index < 3 && <View style={styles.hSeparator} />}
-                    </React.Fragment>
-                ))}
+            <View style= {styles.text}>
+                <Text>Transaction History</Text>
             </View>
 
             {/* Additional Card 1 - Shopping */}
@@ -58,8 +33,17 @@ const TransactionHistory: React.FC = () => {
                 <Text style={styles.amountText}>$76.40</Text>
             </View>
 
+            <View style={styles.singleCard}>
+                <Icon name="cart" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>$5000</Text>
+                    <Text style={styles.cardDescription}>AshBank USD</Text>
+                </View>
+                <Icon name="pen" size={24} color="#4A90E2" />
+            </View>
+
             {/* Additional Card 2 - Taxi */}
-            <TouchableOpacity onPress={() =>router.push('./balance')}>
+            <TouchableOpacity onPress={() =>router.push('/ai chats')}>
             <View style={styles.singleCard}>
                 <Icon name="car" size={24} color="#4A90E2" />
                 <View style={styles.textGroup}>
@@ -79,14 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         padding: 16,
     },
-    searchBarContainer: {
-        backgroundColor: '#F5F5F7',
-        borderRadius: 10,
-    },
-    searchInput: {
-        fontSize: 16,
-        color: '#1C1C1E',
-    },
+   
     all: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -137,7 +114,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 12,
         marginTop: 12,
+        height: 100
+    },
+
+    text:{
+      marginTop: 20
+
     },
 });
 
-export default TransactionHistory;
+export default HomeServiceFee;

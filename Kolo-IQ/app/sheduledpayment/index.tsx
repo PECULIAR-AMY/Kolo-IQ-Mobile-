@@ -6,7 +6,7 @@ import {useRouter} from 'expo-router'
 
 
 
-const TransactionHistory: React.FC = () => {
+const ScheduledPayment: React.FC = () => {
     const router= useRouter();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -26,40 +26,44 @@ const TransactionHistory: React.FC = () => {
                 <Text>Income</Text>
             </View>
 
-            {/* Vertical Card List */}
-            <View style={styles.card}>
-                {[
-                    { icon: 'car', title: 'Taxi', desc: 'Uber ride', amount: '$12.99' },
-                    { icon: 'silverware-fork-knife', title: 'Food', desc: 'Lunch at cafe', amount: '$8.50' },
-                    { icon: 'bank-transfer', title: 'Transfer', desc: 'Bank to wallet', amount: '$100.00' },
-                    { icon: 'tag', title: 'Prices', desc: 'Grocery shopping', amount: '$54.20' },
-                ].map((item, index) => (
-                    <React.Fragment key={index}>
-                        <View style={styles.cardItem}>
-                            <Icon name={item.icon} size={24} color="#4A90E2" />
-                            <View style={styles.textGroup}>
-                                <Text style={styles.cardTitle}>{item.title}</Text>
-                                <Text style={styles.cardDescription}>{item.desc}</Text>
-                            </View>
-                            <Text style={styles.amountText}>{item.amount}</Text>
-                        </View>
-                        {index < 3 && <View style={styles.hSeparator} />}
-                    </React.Fragment>
-                ))}
-            </View>
-
             {/* Additional Card 1 - Shopping */}
             <View style={styles.singleCard}>
-                <Icon name="cart" size={24} color="#4A90E2" />
+                <Icon name="tablet" size={24} color="#4A90E2" />
                 <View style={styles.textGroup}>
-                    <Text style={styles.cardTitle}>Shopping</Text>
+                    <Text style={styles.cardTitle}>Netflix subscription</Text>
+                    <Text style={styles.cardDescription}>Bought clothes online</Text>
+                </View>
+                <Text style={styles.amountText}>$76.40</Text>
+            </View>
+
+            <View style={styles.singleCard}>
+                <Icon name="home" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>Home Service</Text>
+                    <Text style={styles.cardDescription}>Bought clothes online</Text>
+                </View>
+                <Text style={styles.amountText}>$76.40</Text>
+            </View>
+
+            <View style={styles.singleCard}>
+                <Icon name="pen" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>Car Insurance</Text>
+                    <Text style={styles.cardDescription}>Bought clothes online</Text>
+                </View>
+            </View>
+
+            <View style={styles.singleCard}>
+                <Icon name="car" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>Gym membership</Text>
                     <Text style={styles.cardDescription}>Bought clothes online</Text>
                 </View>
                 <Text style={styles.amountText}>$76.40</Text>
             </View>
 
             {/* Additional Card 2 - Taxi */}
-            <TouchableOpacity onPress={() =>router.push('./balance')}>
+            <TouchableOpacity onPress={() =>router.push('/homeservicefee')}>
             <View style={styles.singleCard}>
                 <Icon name="car" size={24} color="#4A90E2" />
                 <View style={styles.textGroup}>
@@ -68,6 +72,14 @@ const TransactionHistory: React.FC = () => {
                 </View>
                 <Text style={styles.amountText}>$25.00</Text>
             </View>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.dottedCard}>
+                <View style={styles.dottedButton}>
+                    <Icon name="plus" size={20} color="#4A90E2" />
+                </View>
+                <Text style={styles.addNewText}>Add new</Text>
             </TouchableOpacity>
         </View>
     );
@@ -137,7 +149,37 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 12,
         marginTop: 12,
+        height: 70
     },
+
+    dottedCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        borderWidth: 2,
+        borderStyle: 'dotted',
+        borderColor: 'black',
+        borderRadius: 10,
+        padding: 16,
+        marginTop: 20,
+    },
+    dottedButton: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: '#4A90E2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+        borderStyle: 'dotted',
+    },
+    addNewText: {
+        fontSize: 16,
+        color: '#4A90E2',
+        fontWeight: '500',
+    },
+
 });
 
-export default TransactionHistory;
+export default ScheduledPayment;

@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import SearchBar from '../searchbar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useRouter} from 'expo-router'
 
 
 
-const TransactionHistory: React.FC = () => {
+const Balance: React.FC = () => {
     const router= useRouter();
     const [searchTerm, setSearchTerm] = useState('');
 
     return (
         <View style={styles.container}>
-            <SearchBar
-                onSearch={setSearchTerm}
-                placeholder="Super AI search"
-                containerStyle={styles.searchBarContainer}
-                inputStyle={styles.searchInput}
-                iconColor="#4A90E2"
-            />
-
-            <View style={styles.all}>
-                <Text>All</Text>
-                <Text>Spending</Text>
-                <Text>Income</Text>
+           <View style={styles.singleCard}>
+                <Icon name="cart" size={24} color="#4A90E2" />
+                <View style={styles.textGroup}>
+                    <Text style={styles.cardTitle}>$5000</Text>
+                    <Text style={styles.cardDescription}>AshBank USD</Text>
+                </View>
+                <Icon name="pen" size={24} color="#4A90E2" />
             </View>
 
             {/* Vertical Card List */}
@@ -59,7 +53,7 @@ const TransactionHistory: React.FC = () => {
             </View>
 
             {/* Additional Card 2 - Taxi */}
-            <TouchableOpacity onPress={() =>router.push('./balance')}>
+            <TouchableOpacity onPress={() =>router.push('/sheduledpayment')}>
             <View style={styles.singleCard}>
                 <Icon name="car" size={24} color="#4A90E2" />
                 <View style={styles.textGroup}>
@@ -79,14 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         padding: 16,
     },
-    searchBarContainer: {
-        backgroundColor: '#F5F5F7',
-        borderRadius: 10,
-    },
-    searchInput: {
-        fontSize: 16,
-        color: '#1C1C1E',
-    },
+   
     all: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -137,7 +124,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 12,
         marginTop: 12,
+        height: 100
     },
 });
 
-export default TransactionHistory;
+export default Balance;
