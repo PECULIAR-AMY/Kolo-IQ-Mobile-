@@ -92,6 +92,7 @@ const TransactionHistory: React.FC = () => {
                 <View style={styles.textGroup}>
                     <Text style={styles.cardTitle}>Shopping</Text>
                     <Text style={styles.cardDescription}>Bought clothes online</Text>
+                    <Text>Hi grace</Text>
                 </View>
                 <Text style={styles.amountText}>$76.40</Text>
             </View>
