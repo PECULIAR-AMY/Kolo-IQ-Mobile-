@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-const StatisticsLayout:React.FC =() => {
+const FullBalanceLayout:React.FC =() => {
     return <Stack 
     screenOptions={{
         headerShown: false 
@@ -8,4 +8,4 @@ const StatisticsLayout:React.FC =() => {
 }
 
 
-export default StatisticsLayout
+export default FullBalanceLayout
