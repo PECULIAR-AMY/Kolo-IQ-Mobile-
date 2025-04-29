@@ -16,7 +16,7 @@ const RootLayout: React.FC = () => {
         contentStyle:{
           paddingHorizontal:10,
           paddingTop:10,
-          backgroundColor: '#fff'
+          backgroundColor: 'ffffff'
         }
       }}>
 

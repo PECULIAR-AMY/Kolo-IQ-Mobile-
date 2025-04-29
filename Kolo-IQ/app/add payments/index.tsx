@@ -48,7 +48,7 @@ const AddPayments: React.FC = () => {
             </View>
 
             {/* Additional Card 2 - Taxi */}
-            <TouchableOpacity onPress={() =>router.push('/ai chats')}>
+            <TouchableOpacity onPress={() =>router.push('/fullbalance')}>
             <View style={styles.saveCard}>
                <Text>Save all expenses</Text>
             </View>
