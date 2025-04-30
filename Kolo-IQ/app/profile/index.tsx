@@ -62,21 +62,26 @@ const Profile: React.FC = () => {
         </View>
 
         <BarChart
-          data={chartData}
-          width={screenWidth - 20}
-          height={220}
-          fromZero
-          chartConfig={{
-            backgroundColor: '#ffffff',
-            backgroundGradientFrom: '#ffffff',
-            backgroundGradientTo: '#ffffff',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            barPercentage: 0.6,
-          }}
-          style={styles.barChart}
-        />
+  data={{
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    datasets: [{ data: [40, 60, 30, 80, 50] }],
+  }}
+  width={screenWidth - 60}
+  height={220}
+  fromZero={true}
+  yAxisLabel=""
+  yAxisSuffix=""
+  chartConfig={{
+    backgroundColor: '#ffffff',
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
+    decimalPlaces: 0,
+    color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(85, 85, 85, ${opacity})`,
+  }}
+  style={styles.chart}
+/>
+
 
               {/* Flexed Card  */}
       <View style={styles.cardRow}>
@@ -278,6 +283,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
+  },
+  chart: {
+    marginTop: 8,
+    borderRadius: 10,
   },
 
 

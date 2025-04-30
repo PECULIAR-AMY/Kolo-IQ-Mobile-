@@ -1,15 +1,23 @@
-import React from 'react'
-import {useRouter} from 'expo-router'
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
-import { BarChart } from 'react-native-chart-kit'
+import React from 'react';
+import { useRouter } from 'expo-router';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
 
-const screenWidth = Dimensions.get('window').width
+const screenWidth = Dimensions.get('window').width;
 
 const BalancedCard: React.FC = () => {
-    const router= useRouter();
+  const router = useRouter();
+
   const handlePress = () => {
-    console.log('Button pressed')
-  }
+    console.log('Button pressed');
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -23,23 +31,20 @@ const BalancedCard: React.FC = () => {
 
       <Text style={styles.sectionTitle}>Currency</Text>
 
-      {/* Currency Stats Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Statistics</Text>
         <View style={styles.divider} />
         <View style={styles.cardRow}>
-          <View style={styles.cardItemContainer}>
-            <Text style={styles.cardItem}>USD</Text>
-            <Text style={styles.cardSubtext}>98</Text>
-          </View>
-          <View style={styles.cardItemContainer}>
-            <Text style={styles.cardItem}>EUR</Text>
-            <Text style={styles.cardSubtext}>89</Text>
-          </View>
-          <View style={styles.cardItemContainer}>
-            <Text style={styles.cardItem}>GBP</Text>
-            <Text style={styles.cardSubtext}>93</Text>
-          </View>
+          {[
+            { label: 'USD', value: '98' },
+            { label: 'EUR', value: '89' },
+            { label: 'GBP', value: '93' },
+          ].map(({ label, value }) => (
+            <View style={styles.cardItemContainer} key={label}>
+              <Text style={styles.cardItem}>{label}</Text>
+              <Text style={styles.cardSubtext}>{value}</Text>
+            </View>
+          ))}
         </View>
       </View>
 
@@ -47,51 +52,51 @@ const BalancedCard: React.FC = () => {
         <Text style={styles.buttonText}>Add</Text>
       </TouchableOpacity>
 
-      {/* Bar Chart Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Statistics</Text>
 
         <View style={styles.timeFilters}>
-          {['Daily', 'Weekly', 'Monthly', 'Yearly'].map((label, index) => (
-            <TouchableOpacity onPress={() => router.push('./statistics')}>
-                <Text
-              key={index}
-              style={[
-                styles.filterText,
-                label === 'Weekly' && styles.activeFilter
-              ]}
+          {['Daily', 'Weekly', 'Monthly', 'Yearly'].map((label) => (
+            <TouchableOpacity
+              key={label}
+              onPress={() => router.push('./statistics')}
             >
-              {label}
-            </Text>
+              <Text
+                style={[
+                  styles.filterText,
+                  label === 'Weekly' && styles.activeFilter,
+                ]}
+              >
+                {label}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
 
         <BarChart
-          data={{
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-            datasets: [
-              {
-                data: [40, 60, 30, 80, 50],
-              },
-            ],
-          }}
-          width={screenWidth - 60}
-          height={220}
-          chartConfig={{
-            backgroundColor: '#ffffff',
-            backgroundGradientFrom: '#ffffff',
-            backgroundGradientTo: '#ffffff',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
-            labelColor: () => '#555',
-          }}
-          style={styles.chart}
-        />
+  data={{
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    datasets: [{ data: [40, 60, 30, 80, 50] }],
+  }}
+  width={screenWidth - 40}
+  height={220}
+  yAxisLabel="$"
+  yAxisSuffix=""  // <-- ADD THIS
+  chartConfig={{
+    backgroundColor: '#fff',
+    backgroundGradientFrom: '#fff',
+    backgroundGradientTo: '#fff',
+    decimalPlaces: 0,
+    color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
+    labelColor: () => '#555',
+  }}
+  style={styles.chart}
+/>
+
       </View>
     </ScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -119,17 +124,10 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#6c757d',
     paddingVertical: 12,
-    paddingHorizontal: 24,
     borderRadius: 10,
     marginTop: 16,
-    alignSelf: 'flex-start',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
@@ -201,6 +199,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 10,
   },
-})
+});
 
-export default BalancedCard
+export default BalancedCard;
