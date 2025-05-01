@@ -61,19 +61,28 @@ const Statistics: React.FC = () => {
         </View>
 
         <BarChart
-          data={weeklyChartData}
-          width={screenWidth - 48}
-          height={220}
-          fromZero
-          chartConfig={{
-            backgroundGradientFrom: '#fff',
-            backgroundGradientTo: '#fff',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
-            labelColor: () => '#666',
-          }}
-          style={{ marginTop: 12, borderRadius: 16 }}
-        />
+  data={{
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    datasets: [{ data: [40, 60, 30, 80, 50] }],
+  }}
+  width={screenWidth - 60}
+  height={220}
+  fromZero={true}
+  yAxisLabel=""
+  yAxisSuffix="" // 👈 Required props even if empty
+  chartConfig={{
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
+    decimalPlaces: 0,
+    color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
+    labelColor: () => '#555',
+  }}
+  style={{
+    marginTop: 8,
+    borderRadius: 10,
+  }}
+/>
+
       </View>
 
       {/* Icon Card 1 */}
@@ -104,27 +113,41 @@ const Statistics: React.FC = () => {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Quarterly Overview</Text>
         <BarChart
-          data={coloredChartData}
-          width={screenWidth - 48}
-          height={220}
-          fromZero
-          withInnerLines={false}
-          showBarTops={false}
-          chartConfig={{
-            backgroundGradientFrom: '#fff',
-            backgroundGradientTo: '#fff',
-            decimalPlaces: 0,
-            barPercentage: 0.6,
-            labelColor: () => '#333',
-            color: () => `rgba(0, 0, 0, 1)`,
-            propsForBackgroundLines: {
-              strokeWidth: 0,
-            },
-          }}
-          style={{ marginTop: 16, borderRadius: 16 }}
-          verticalLabelRotation={0}
-          flatColor={true}
-        />
+  data={{
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    datasets: [
+      {
+        data: [40, 60, 30, 80, 50],
+        colors: [
+          () => '#0044cc',
+          () => '#0055ee',
+          () => '#0066ff',
+          () => '#0077dd',
+          () => '#0088bb'
+        ]
+      },
+    ],
+  }}
+  width={screenWidth - 60}
+  height={220}
+  fromZero={true}
+  withInnerLines={false}
+  showBarTops={false}
+  flatColor={true}
+  verticalLabelRotation={0}
+  yAxisLabel=""
+  yAxisSuffix="%" // or "$", or whatever makes sense in your chart
+  chartConfig={{
+    backgroundColor: '#ffffff',
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
+    decimalPlaces: 0,
+    color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+  }}
+  style={styles.chart}
+/>
+
       </View>
     </View>
   )
@@ -202,6 +225,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#0066cc',
     padding: 8,
     borderRadius: 20,
+  },
+
+  chart: {
+    marginTop: 8,
+    borderRadius: 10,
   },
 })
 

@@ -23,7 +23,7 @@ const BalancedCard: React.FC = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.heading}>Balanced Card</Text>
       <Text style={styles.label}>Balance</Text>
-      <Text style={styles.balance}>$90,890</Text>
+      <Text style={styles.balance}>$90</Text>
 
       <TouchableOpacity style={styles.button} onPress={handlePress}>
         <Text style={styles.buttonText}>Already Added</Text>
@@ -83,7 +83,7 @@ const BalancedCard: React.FC = () => {
   yAxisLabel="$"
   yAxisSuffix=""  // <-- ADD THIS
   chartConfig={{
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
     decimalPlaces: 0,
